@@ -1,0 +1,40 @@
+{
+  "name": "nongped-api",
+  "version": "1.0.0",
+  "description": "To be a middleware between database and front-end",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "eslint-config-airbnb-base": "^11.0.0",
+    "express": "^4.14.0",
+    "express-winston": "^2.1.0",
+    "gulp": "^3.9.1",
+    "gulp-load-plugins": "^1.4.0",
+    "mongoose": "^4.7.2",
+    "morgan": "^1.7.0",
+    "winston": "^2.3.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "eslint": "^3.12.0",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-config-airbnb-base": "^11.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.8.0",
+    "gulp-eslint": "^3.0.1",
+    "mocha": "^3.2.0",
+    "mockgoose": "^6.0.8",
+    "sinon": "^1.17.6"
+  }
+}

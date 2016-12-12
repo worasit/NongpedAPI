@@ -5,13 +5,34 @@
     "mocha": true
   },
   "extends": "airbnb",
-  "parserOptions": {
-    "sourceType": "module"
-  },
+  "parser": "babel-eslint",
   "rules": {
-    "comma-dangle": [
-      "error",
-      "never"
+    // offs
+    "strict": 0,
+    "comma-dangle": 0,
+    "no-console": 0,
+    "func-names": 0,
+    "prefer-arrow-callback": 0,
+    "no-shadow": 0,
+    "import/no-extraneous-dependencies": 0,
+    //version of node.js that we are using does not understand import
+
+    // warnings
+    "no-underscore-dangle": 1,
+    //This convention might lead developers to wrongly think
+    //that a change won't count as breaking, or that tests aren't needed
+    "linebreak-style": [
+      1,
+      "unix"
+    ],
+    // errors
+    "indent": [
+      2,
+      2
+    ],
+    "semi": [
+      2,
+      "always"
     ]
-  }
+  },
 }

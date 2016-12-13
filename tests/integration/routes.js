@@ -9,7 +9,7 @@ describe('Routes', () => {
   describe('#healthcheck', () => {
     it('should return 200 OK, if navigate to given path "/healthcheck"', () =>
         chai.request(app)
-            .get('/healthcheck')
+            .get('/healthcheckx')
             .then(res => expect(res).to.have.status(200))
     );
   });

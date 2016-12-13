@@ -48,15 +48,14 @@ gulp.task('pre-test', () =>
     .pipe($.istanbul.hookRequire())
 );
 
-gulp.task('unit-test', ['lint', 'pre-test'], () =>
+gulp.task('unit-test', ['pre-test'], () =>
   gulp.src(['tests/unit/**/*.js'])
     .pipe($.mocha())
     .pipe($.istanbul.writeReports())
     .pipe($.istanbul.enforceThresholds({ thresholds: { global: 90 } }))
 );
 
-
-gulp.task('integration-test', ['lint'], () =>
+gulp.task('integration-test', () =>
   gulp.src(['tests/integration/*.js', 'test/integration/**/*.js'], { read: false })
     .pipe($.mocha({}))
     .on('error', $.util.log)
@@ -65,5 +64,5 @@ gulp.task('integration-test', ['lint'], () =>
     })
 );
 
-gulp.task('test:development', $.sequence('config:default', 'unit-test', 'integration-test'));
-gulp.task('test:production', $.sequence('config:production', 'unit-test', 'integration-test'));
+gulp.task('test:development', $.sequence('config:default', 'lint', 'unit-test', 'integration-test'));
+gulp.task('test:production', $.sequence('config:production', 'lint', 'unit-test', 'integration-test'));

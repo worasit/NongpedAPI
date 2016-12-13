@@ -12,7 +12,6 @@ chai.use(chaiHttp);
 chai.use(chaiAsPromised);
 
 describe('Routes', () => {
-
   let mockedApp;
   before(() =>
     mockgoose(mongoose)

@@ -9,7 +9,8 @@ gulp.task('lint', () => {
     'tests/**/*.js',
     'configManager.js',
     '!node_modules/**',
-    '!tests/data/*.js'])
+    '!tests/data/*.js',
+    '!gulpfile.js'])
     .pipe($.eslint())
     .pipe($.eslint.format());
 });
@@ -52,23 +53,13 @@ gulp.task('unit-test', ['lint', 'pre-test'], () =>
     .pipe($.mocha())
     .pipe($.istanbul.writeReports())
     .pipe($.istanbul.enforceThresholds({ thresholds: { global: 90 } }))
-    .once('error', () => {
-      $.util.log();
-      process.exit(1);
-    })
-    .once('end', () => {
-      process.exit();
-    })
 );
+
 
 gulp.task('integration-test', ['lint'], () =>
   gulp.src(['tests/integration/*.js', 'test/integration/**/*.js'], { read: false })
     .pipe($.mocha({}))
-    .once('error', () => {
-      $.util.log();
-      process.exit(1);
-    })
-    .once('end', () => {
-      process.exit();
-    })
 );
+
+gulp.task('test:development', $.sequence('config:default', 'unit-test', 'integration-test'));
+gulp.task('test:production', $.sequence('config:production', 'unit-test', 'integration-test'));

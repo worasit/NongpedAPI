@@ -41,11 +41,11 @@ gulp.task('config:default', () => {
   });
 });
 
-gulp.task('pre-test', function () {
-  return gulp.src(['app/**/*.js'])
+gulp.task('pre-test', () =>
+  gulp.src(['app/**/*.js'])
     .pipe($.istanbul())
-    .pipe($.istanbul.hookRequire());
-});
+    .pipe($.istanbul.hookRequire())
+);
 
 gulp.task('unit-test', ['lint', 'pre-test'], () => {
   gulp.src(['tests/unit/**/*.js'])

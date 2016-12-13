@@ -8,7 +8,8 @@ gulp.task('lint', () => {
     'gulpfile.js',
     'tests/**/*.js',
     'configManager.js',
-    '!node_modules/**'])
+    '!node_modules/**',
+    '!tests/data/*.js'])
     .pipe($.eslint())
     .pipe($.eslint.format());
 });
@@ -19,7 +20,9 @@ gulp.task('watch', () => {
     'gulpfile.js',
     'tests/**/*.js',
     'configManager.js',
-    'app/**/*.js'], ['lint']);
+    'app/**/*.js',
+    '!tests/data'
+  ], ['lint']);
 });
 
 gulp.task('config:production', () => {

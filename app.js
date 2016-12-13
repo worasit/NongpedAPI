@@ -8,17 +8,22 @@ const config = require('./configManager');
 const app = express();
 const port = process.env.PORT || config.apiPort;
 const healthcheckRouter = require('./app/routes/healthcheck');
+const customerRouter = require('./app/routes/customer');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 app.use('/healthcheck', healthcheckRouter);
+app.use('/customers', customerRouter);
 
-mongoose.connect(config.dbConnectionString, (err) => {
-  if (err) logger.error(err);
-  logger.info(`Open database connection to ${config.dbConnectionString}`);
-});
+mongoose.Promise = global.Promise;
+if (mongoose.connection.readyState === 0) {
+  mongoose.connect(config.dbConnectionString, (err) => {
+    if (err) logger.error(err);
+    logger.info(`Open database connection to ${config.dbConnectionString}`);
+  });
+}
 
 app.listen(port, () => {
   logger.info(`The NongPed API is now running at port:${port}`);

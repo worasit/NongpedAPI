@@ -1,7 +1,5 @@
 const gulp = require('gulp');
-const gulpLoadPlugins = require('gulp-load-plugins');
-
-const $ = gulpLoadPlugins();
+const $ = require('gulp-load-plugins')();
 
 gulp.task('lint', () => {
   gulp.src([
@@ -22,4 +20,20 @@ gulp.task('watch', () => {
     'tests/**/*.js',
     'configManager.js',
     'app/**/*.js'], ['lint']);
+});
+
+gulp.task('config:production', () => {
+  $.env({
+    vars: {
+      NODE_ENV: 'production'
+    }
+  });
+});
+
+gulp.task('config:default', () => {
+  $.env({
+    vars: {
+      NODE_ENV: ''
+    }
+  });
 });

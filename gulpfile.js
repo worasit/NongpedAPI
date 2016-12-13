@@ -59,6 +59,10 @@ gulp.task('unit-test', ['lint', 'pre-test'], () =>
 gulp.task('integration-test', ['lint'], () =>
   gulp.src(['tests/integration/*.js', 'test/integration/**/*.js'], { read: false })
     .pipe($.mocha({}))
+    .on('error', $.util.log)
+    .once('end', () => {
+      process.exit();
+    })
 );
 
 gulp.task('test:development', $.sequence('config:default', 'unit-test', 'integration-test'));

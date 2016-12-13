@@ -15,9 +15,9 @@ app.use(morgan('dev'));
 
 app.use('/healthcheck', healthcheckRouter);
 
-mongoose.connect('mongodb://192.168.99.100/nongped', (err) => {
+mongoose.connect(config.dbConnectionString, (err) => {
   if (err) logger.error(err);
-  logger.info('Open connection to mongodb://192.168.99.100/nongped');
+  logger.info(`Open database connection to ${config.dbConnectionString}`);
 });
 
 app.listen(port, () => {

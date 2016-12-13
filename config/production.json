@@ -1,6 +1,7 @@
 {
   "config": {
     "environment": "production",
+    "apiPort": 4000,
     "db": {
       "host": "192.168.99.100",
       "port": 27017,

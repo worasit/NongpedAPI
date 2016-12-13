@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const config = require('./configManager');
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || config.port;
 const healthcheckRouter = require('./app/routes/healthcheck');
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,7 +23,7 @@ mongoose.connect('mongodb://192.168.99.100/nongped', (err) => {
 app.listen(port, () => {
   logger.info(`The NongPed API is now running at port:${port}`);
   logger.info(`Using configuration for ${config.environment} enviroment`);
-  logger.info(config);
+  logger.info(JSON.stringify(config));
 });
 
 module.exports = app;

@@ -13,12 +13,15 @@ chai.use(chaiAsPromised);
 
 describe('Routes', () => {
   let mockedApp;
-  before(() => {
-    return appWithMockedDB.getMockedApp().then((app) => {
+  before((done) => {
+    appWithMockedDB.getMockedApp().then((app) => {
       mockedApp = app;
+      done();
     });
   });
-  after(() => mongoose.connection.close());
+  after((done) => {
+    mongoose.connection.close(done);
+  });
 
   describe('#healthcheck', () => {
     it('should return 200 OK, if navigate to given path "/healthcheck"', () =>

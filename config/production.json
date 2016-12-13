@@ -3,9 +3,16 @@
     "environment": "production",
     "apiPort": 4000,
     "db": {
-      "host": "192.168.99.100",
-      "port": 27017,
-      "dbName": "nongped"
+      "scheme": "mongodb",
+      "hosts": [
+        {
+          "host": "192.168.99.100",
+          "port": 27017
+        }
+      ],
+      "database": "nongped",
+      "options": {
+      }
     }
   }
 }

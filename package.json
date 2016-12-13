@@ -19,6 +19,7 @@
     "express-winston": "^2.1.0",
     "gulp": "^3.9.1",
     "gulp-load-plugins": "^1.4.0",
+    "mongodb-uri": "^0.9.7",
     "mongoose": "^4.7.2",
     "morgan": "^1.7.0",
     "winston": "^2.3.0"

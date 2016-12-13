@@ -40,3 +40,22 @@ gulp.task('config:default', () => {
     }
   });
 });
+
+gulp.task('pre-test', () =>
+  gulp.src(['app/**/*.js'])
+    .pipe($.istanbul())
+    .pipe($.istanbul.hookRequire())
+);
+
+gulp.task('unit-test', ['lint', 'pre-test'], () => {
+  gulp.src(['tests/unit/**/*.js'])
+    .pipe($.mocha())
+    .pipe($.istanbul.writeReports())
+    .pipe($.istanbul.enforceThresholds({ thresholds: { global: 90 } }))
+    .once('error', () => {
+      process.exit(1);
+    })
+    .once('end', () => {
+      process.exit();
+    });
+});

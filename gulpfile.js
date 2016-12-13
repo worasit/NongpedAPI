@@ -47,15 +47,28 @@ gulp.task('pre-test', () =>
     .pipe($.istanbul.hookRequire())
 );
 
-gulp.task('unit-test', ['lint', 'pre-test'], () => {
+gulp.task('unit-test', ['lint', 'pre-test'], () =>
   gulp.src(['tests/unit/**/*.js'])
     .pipe($.mocha())
     .pipe($.istanbul.writeReports())
     .pipe($.istanbul.enforceThresholds({ thresholds: { global: 90 } }))
     .once('error', () => {
+      $.util.log();
       process.exit(1);
     })
     .once('end', () => {
       process.exit();
-    });
-});
+    })
+);
+
+gulp.task('integration-test', ['lint'], () =>
+  gulp.src(['tests/integration/*.js', 'test/integration/**/*.js'], { read: false })
+    .pipe($.mocha({}))
+    .once('error', () => {
+      $.util.log();
+      process.exit(1);
+    })
+    .once('end', () => {
+      process.exit();
+    })
+);

@@ -5,7 +5,7 @@ const chaiHttp = require('chai-http');
 const customerTestData = require('../data/customer');
 const chaiAsPromised = require('chai-as-promised');
 const mongoose = require('mongoose');
-const mockgoose = require('mockgoose');
+const appWithMockedDB = require('../appWithMockedDB');
 
 const expect = chai.expect;
 chai.use(chaiHttp);
@@ -13,13 +13,11 @@ chai.use(chaiAsPromised);
 
 describe('Routes', () => {
   let mockedApp;
-  before(() =>
-    mockgoose(mongoose)
-      .then(() => mongoose.connect('mongodb://localhost/testDb'))
-      .then(() => {
-        mockedApp = require('../../app'); // eslint-disable-line global-require
-      })
-  );
+  before(() => {
+    return appWithMockedDB.getMockedApp().then((app) => {
+      mockedApp = app;
+    });
+  });
   after(() => mongoose.connection.close());
 
   describe('#healthcheck', () => {
@@ -46,4 +44,5 @@ describe('Routes', () => {
         .and.have.status(400)
     );
   });
-});
+})
+;

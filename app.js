@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const config = require('./configManager');
 
 const app = express();
-const port = process.env.PORT || config.port;
+const port = process.env.PORT || config.apiPort;
 const healthcheckRouter = require('./app/routes/healthcheck');
 
 app.use(bodyParser.urlencoded({ extended: true }));

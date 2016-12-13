@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const logger = require('winston');
 const mongoose = require('mongoose');
+const config = require('./configManager');
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -19,6 +20,10 @@ mongoose.connect('mongodb://192.168.99.100/nongped', (err) => {
   logger.info('Open connection to mongodb://192.168.99.100/nongped');
 });
 
-app.listen(port, () => logger.info(`The NongPed API is now running at port:${port}`));
+app.listen(port, () => {
+  logger.info(`The NongPed API is now running at port:${port}`);
+  logger.info(`Using configuration for ${config.environment} enviroment`);
+  logger.info(config);
+});
 
 module.exports = app;

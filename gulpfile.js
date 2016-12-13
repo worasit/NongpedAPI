@@ -9,9 +9,10 @@ gulp.task('lint', () => {
     'app/**/*.js',
     'gulpfile.js',
     'tests/**/*.js',
+    'configManager.js',
     '!node_modules/**'])
-      .pipe($.eslint())
-      .pipe($.eslint.format());
+    .pipe($.eslint())
+    .pipe($.eslint.format());
 });
 
 gulp.task('watch', () => {
@@ -19,5 +20,6 @@ gulp.task('watch', () => {
     'app.js',
     'gulpfile.js',
     'tests/**/*.js',
+    'configManager.js',
     'app/**/*.js'], ['lint']);
 });

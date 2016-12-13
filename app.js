@@ -18,11 +18,12 @@ app.use('/healthcheck', healthcheckRouter);
 app.use('/customers', customerRouter);
 
 mongoose.Promise = global.Promise;
-mongoose.connect(config.dbConnectionString, (err) => {
-  if (err) logger.error(err);
-  logger.info(`Open database connection to ${config.dbConnectionString}`);
-});
-
+if (mongoose.connection.readyState === 0) {
+  mongoose.connect(config.dbConnectionString, (err) => {
+    if (err) logger.error(err);
+    logger.info(`Open database connection to ${config.dbConnectionString}`);
+  });
+}
 
 app.listen(port, () => {
   logger.info(`The NongPed API is now running at port:${port}`);

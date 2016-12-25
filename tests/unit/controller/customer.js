@@ -98,7 +98,7 @@ describe('Customer Controller', () => {
   describe('#updateCustomer', () => {
     it('should return 200 OK and update customer information', () => {
       // Arrange
-      let updatedCustomer = customerData.CORRECTED_CUSTOMER_DATA;
+      const updatedCustomer = customerData.CORRECTED_CUSTOMER_DATA;
       updatedCustomer.address = 'updated address';
       const request = httpMock.createRequest({
         method: 'PUT',
@@ -121,7 +121,7 @@ describe('Customer Controller', () => {
 
     it('should return 200 OK and create a new customer if given customer does not exist.', () => {
       // Arrange
-      let updatedCustomer = customerData.CORRECTED_CUSTOMER_DATA;
+      const updatedCustomer = customerData.CORRECTED_CUSTOMER_DATA;
       updatedCustomer.address = 'new customer address';
       const request = httpMock.createRequest({
         method: 'PUT',

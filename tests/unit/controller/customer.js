@@ -14,42 +14,86 @@ describe('Customer Controller', () => {
 
   beforeEach(() => CustomerModel.remove({}).exec());
 
-  it('should return 200 OK with saving customer information, if given customer info is corrected', () => {
-    // Arrange
-    const request = httpMock.createRequest({
-      method: 'POST',
-      body: customerData.CORRECTED_CUSTOMER_DATA,
-      json: true
+  describe('#registerCustomer', () => {
+    it('should return 200 OK with saving customer information, if given customer info is corrected', () => {
+      // Arrange
+      const request = httpMock.createRequest({
+        method: 'POST',
+        body: customerData.CORRECTED_CUSTOMER_DATA,
+        json: true
+      });
+      const response = httpMock.createResponse();
+
+      // Act
+      const customerController = CustomerController.registerCustomer(request, response);
+
+      // Assert
+      return customerController.then(() => {
+        const actualResponse = JSON.parse(response._getData());
+        expect(response.statusCode).to.equal(200);
+        expect(actualResponse.email).to.equals(customerData.CORRECTED_CUSTOMER_DATA.email);
+      });
     });
-    const response = httpMock.createResponse();
 
-    // Act
-    const customer = CustomerController.registerCustomer(request, response);
+    it('should return 400 OK with saving customer information, if given customer info is uncorrected', () => {
+      // Arrange
+      const request = httpMock.createRequest({
+        method: 'POST',
+        body: customerData.UNCORRECTED_CUSTOMER_DATA_NO_USER_NAME,
+        json: true
+      });
+      const response = httpMock.createResponse();
 
-    // Assert
-    return customer.then(() => {
-      const actualResponse = JSON.parse(response._getData());
-      expect(response.statusCode).to.equal(200);
-      expect(actualResponse.email).to.equals(customerData.CORRECTED_CUSTOMER_DATA.email);
+      // Act
+      const customerController = CustomerController.registerCustomer(request, response);
+
+      // Assert
+      return customerController.then(() => {
+        expect(response.statusCode).to.equal(400);
+        expect(JSON.parse(response._getData())).to.have.property('errors');
+      });
     });
   });
 
-  it('should return 400 OK with saving customer information, if given customer info is uncorrected', () => {
-    // Arrange
-    const request = httpMock.createRequest({
-      method: 'POST',
-      body: customerData.UNCORRECTED_CUSTOMER_DATA_NO_USER_NAME,
-      json: true
+  describe('#deleteCustomer', () => {
+    it('should return 200 OK and delete customer information besed on given user_name', () => {
+      // Arrange
+      const request = httpMock.createRequest({
+        method: 'DELETE',
+        params: { user_name: customerData.CORRECTED_CUSTOMER_DATA.user_name }
+      });
+      const response = httpMock.createResponse();
+
+      // Act
+      const customerController = new CustomerModel(customerData.CORRECTED_CUSTOMER_DATA).save()
+        .then(() => CustomerController.deleteCustomer(request, response));
+
+      // Assert
+      return customerController.then(() => {
+        const actualResponse = JSON.parse(response._getData());
+        expect(response.statusCode).to.equal(200);
+        expect(actualResponse).to.equals('The customer test_user_name has been deleted.');
+      });
     });
-    const response = httpMock.createResponse();
 
-    // Act
-    const customer = CustomerController.registerCustomer(request, response);
+    it('should return 400 OK and did not delete customers, if given user_name does not exist.', () => {
+      // Arrange
+      const request = httpMock.createRequest({
+        method: 'DELETE',
+        params: { user_name: 'doesNotExistUser' }
+      });
+      const response = httpMock.createResponse();
 
-    // Assert
-    return customer.then(() => {
-      expect(response.statusCode).to.equal(400);
-      expect(JSON.parse(response._getData())).to.have.property('errors');
+      // Act
+      const customerController = new CustomerModel(customerData.CORRECTED_CUSTOMER_DATA).save()
+        .then(() => CustomerController.deleteCustomer(request, response));
+
+      // Assert
+      return customerController.then(() => {
+        const actualResponse = JSON.parse(response._getData());
+        expect(response.statusCode).to.equal(200);
+        expect(actualResponse).to.equals('The customer doesNotExistUser does not exist.');
+      });
     });
   });
 });

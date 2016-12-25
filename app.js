@@ -25,6 +25,20 @@ if (mongoose.connection.readyState === 0) {
   });
 }
 
+app.use(express.static(__dirname + '/swagger'));
+app.get('/api-docs(/:api)?', function (req, res) {
+  var f = req.params.api || 'swagger';
+  if (!/\.json$/i.test(f)) {
+    f += '.json';
+  }
+  require('fs').readFile(__dirname + '/api-docs/' + f, {
+    encoding: 'UTF-8'
+  }, function (error, data) {
+    res.setHeader("Content-Type", "application/json");
+    res.end(data);
+  });
+});
+
 app.listen(port, () => {
   logger.info(`The NongPed API is now running at port:${port}`);
   logger.info(`Using configuration for ${config.environment} enviroment`);

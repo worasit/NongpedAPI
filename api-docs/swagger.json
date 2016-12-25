@@ -1,0 +1,93 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Nongped API",
+    "description": "",
+    "contact": {
+      "name": "Worasit D.",
+      "url": "https://github.com/worasit/NongpedAPI",
+      "email": "worasit.dmk501@gmail.com"
+    },
+    "version": "0.0.1"
+  },
+  "host": "localhost:4000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/customers": {
+      "post": {
+        "tags": [
+          "Customers"
+        ],
+        "summary": "",
+        "description": "Register a new customer into Nongped system.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {},
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Customer": {
+      "type": "object",
+      "required": [
+        "user_name",
+        "password",
+        "email"
+      ],
+      "properties": {
+        "user_name": {
+          "type": "string",
+          "example": "nongped"
+        },
+        "password": {
+          "type": "string",
+          "example": "your-password"
+        },
+        "email": {
+          "type": "string",
+          "example": "nongped@gmail.com"
+        },
+        "first_name": {
+          "type": "string",
+          "example": "albert"
+        },
+        "last_name": {
+          "type": "string",
+          "example": "Wesker"
+        },
+        "address": {
+          "type": "string",
+          "example": "test address fake rd, soi 99 bangkok"
+        },
+        "city": {
+          "type": "string",
+          "example": "New york"
+        },
+        "zip_code": {
+          "type": "string",
+          "example": "879-1234"
+        }
+      }
+    }
+  }
+}

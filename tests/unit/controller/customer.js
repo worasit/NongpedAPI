@@ -54,7 +54,6 @@ describe('Customer Controller', () => {
       });
     });
   });
-
   describe('#deleteCustomer', () => {
     it('should return 200 OK and delete customer information besed on given user_name', () => {
       // Arrange
@@ -93,6 +92,52 @@ describe('Customer Controller', () => {
         const actualResponse = JSON.parse(response._getData());
         expect(response.statusCode).to.equal(200);
         expect(actualResponse).to.equals('The customer doesNotExistUser does not exist.');
+      });
+    });
+  });
+  describe('#updateCustomer', () => {
+    it('should return 200 OK and update customer information', () => {
+      // Arrange
+      let updatedCustomer = customerData.CORRECTED_CUSTOMER_DATA;
+      updatedCustomer.address = 'updated address';
+      const request = httpMock.createRequest({
+        method: 'PUT',
+        params: { user_name: customerData.CORRECTED_CUSTOMER_DATA.user_name },
+        body: updatedCustomer
+      });
+      const response = httpMock.createResponse();
+
+      // Act
+      const customerController = new CustomerModel(customerData.CORRECTED_CUSTOMER_DATA).save()
+        .then(() => CustomerController.updateCustomer(request, response));
+
+      // Assert
+      return customerController.then(() => {
+        const actualResponse = JSON.parse(response._getData());
+        expect(response.statusCode).to.equal(200);
+        expect(actualResponse.address).to.equals('updated address');
+      });
+    });
+
+    it('should return 200 OK and create a new customer if given customer does not exist.', () => {
+      // Arrange
+      let updatedCustomer = customerData.CORRECTED_CUSTOMER_DATA;
+      updatedCustomer.address = 'new customer address';
+      const request = httpMock.createRequest({
+        method: 'PUT',
+        params: { user_name: customerData.CORRECTED_CUSTOMER_DATA.user_name },
+        body: updatedCustomer
+      });
+      const response = httpMock.createResponse();
+
+      // Act
+      const customerController = CustomerController.updateCustomer(request, response);
+
+      // Assert
+      return customerController.then(() => {
+        const actualResponse = JSON.parse(response._getData());
+        expect(response.statusCode).to.equal(200);
+        expect(actualResponse.address).to.equals('new customer address');
       });
     });
   });

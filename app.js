@@ -1,9 +1,13 @@
+'use strict';
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const logger = require('winston');
 const mongoose = require('mongoose');
 const config = require('./configManager');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const port = process.env.PORT || config.apiPort;
@@ -25,18 +29,17 @@ if (mongoose.connection.readyState === 0) {
   });
 }
 
-app.use(express.static(__dirname + '/swagger'));
-app.get('/api-docs(/:api)?', function (req, res) {
-  var f = req.params.api || 'swagger';
+app.use(express.static(path.join(__dirname, '/swagger')));
+app.get('/api-docs(/:api)?', (req, res) => {
+  let f = req.params.api || 'swagger';
   if (!/\.json$/i.test(f)) {
     f += '.json';
   }
-  require('fs').readFile(__dirname + '/api-docs/' + f, {
-    encoding: 'UTF-8'
-  }, function (error, data) {
-    res.setHeader("Content-Type", "application/json");
-    res.end(data);
-  });
+  fs.readFile(path.join(__dirname, '/api-docs/', f), { encoding: 'UTF-8' },
+    (error, data) => {
+      res.setHeader('Content-Type', 'application/json');
+      res.end(data);
+    });
 });
 
 app.listen(port, () => {

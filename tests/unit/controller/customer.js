@@ -24,7 +24,7 @@ describe('Customer Controller', () => {
     const response = httpMock.createResponse();
 
     // Act
-    let customer = CustomerController.registerCustomer(request, response);
+    const customer = CustomerController.registerCustomer(request, response);
 
     // Assert
     return customer.then(() => {
@@ -44,7 +44,7 @@ describe('Customer Controller', () => {
     const response = httpMock.createResponse();
 
     // Act
-    let customer = CustomerController.registerCustomer(request, response);
+    const customer = CustomerController.registerCustomer(request, response);
 
     // Assert
     return customer.then(() => {

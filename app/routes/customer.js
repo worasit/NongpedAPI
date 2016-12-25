@@ -4,5 +4,6 @@ const CustomerController = require('../controllers/customer');
 const router = express.Router();
 
 router.post('/', CustomerController.registerCustomer);
+router.delete('/:user_name', CustomerController.deleteCustomer);
 
 module.exports = router;

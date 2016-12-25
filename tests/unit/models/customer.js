@@ -13,7 +13,7 @@ describe('Customer Model', () => {
   before(() => mockgoose(mongoose).then(() => mongoose.connect('mongodb://localhost/testDb')));
   after(() => mongoose.connection.close());
 
-  afterEach(() => Customer.remove({}));
+  beforeEach(() => Customer.remove({}).exec());
 
   it('should save customer into database with a corrected customer information successfully', () => {
     // Arrange

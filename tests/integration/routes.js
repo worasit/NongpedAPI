@@ -54,7 +54,6 @@ describe('Routes', () => {
           .and.have.status(400)
       );
     });
-
     describe('#DELETE', () => {
       it('should return 200 OK and delete customer information based on given customer id.', () => {
         // Arrange
@@ -89,6 +88,24 @@ describe('Routes', () => {
           .then((res) => {
             expect(res.status).to.equal(200);
             expect(res.body).to.equal('The customer unknown does not exist.');
+          });
+      });
+    });
+    describe('#PUT', () => {
+      it('should return 200 OK and update or create a customer based on given customer\'s user_name', () => {
+        // Arrange
+        const arrange = new CustomerModel(customerTestData.CORRECTED_CUSTOMER_DATA).save();
+
+        // Act
+        const action = arrange.then(() =>
+          chai.request(mockedApp)
+            .put(`/customers/${customerTestData.CORRECTED_CUSTOMER_DATA.user_name}`)
+        );
+
+        // Assert
+        return action
+          .then((res) => {
+            expect(res.status).to.equal(200);
           });
       });
     });

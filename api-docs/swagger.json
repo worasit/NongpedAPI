@@ -10,7 +10,7 @@
     },
     "version": "0.0.1"
   },
-  "host": "localhost:4000",
+  "host": "nongped-api.herokuapp.com",
   "basePath": "/",
   "schemes": [
     "http"

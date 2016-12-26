@@ -141,4 +141,48 @@ describe('Customer Controller', () => {
       });
     });
   });
+  describe('#retrieveCustomers', () => {
+    it('should return 200 OK and all customers information', () => {
+      // Arrange
+      const request = httpMock.createRequest({
+        method: 'GET'
+      });
+      const response = httpMock.createResponse();
+
+      // Act
+      const action = CustomerModel.create([
+        customerData.CORRECTED_CUSTOMER_DATA,
+        customerData.CORRECTED_CUSTOMER_DATA2])
+        .then(() => CustomerController.getCustomers(request, response));
+
+      // Assert
+      return action.then(() => {
+        const actualResponse = JSON.parse(response._getData());
+        expect(response.statusCode).to.equal(200);
+        expect(actualResponse.length).to.equal(2);
+      });
+    });
+
+    it('should return 200 OK and specific customer based on user_name', () => {
+      // Arrange
+      const request = httpMock.createRequest({
+        method: 'GET',
+        params: { user_name: customerData.CORRECTED_CUSTOMER_DATA2.user_name }
+      });
+      const response = httpMock.createResponse();
+
+      // Act
+      const action = CustomerModel.create([
+        customerData.CORRECTED_CUSTOMER_DATA,
+        customerData.CORRECTED_CUSTOMER_DATA2])
+        .then(() => CustomerController.getCustomer(request, response));
+
+      // Assert
+      return action.then(() => {
+        const actualResponse = JSON.parse(response._getData());
+        expect(response.statusCode).to.equal(200);
+        expect(actualResponse.email).to.equal(customerData.CORRECTED_CUSTOMER_DATA2.email);
+      });
+    });
+  });
 });

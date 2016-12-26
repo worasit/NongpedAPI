@@ -2,7 +2,7 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const customerTestData = require('../data/customer');
+const customerData = require('../data/customer');
 const chaiAsPromised = require('chai-as-promised');
 const mongoose = require('mongoose');
 const appWithMockedDB = require('../appWithMockedDB');
@@ -39,17 +39,17 @@ describe('Routes', () => {
       it('should return 200 OK and save customer information, when registered customer', () =>
         chai.request(mockedApp)
           .post('/customers')
-          .send(customerTestData.CORRECTED_CUSTOMER_DATA)
+          .send(customerData.CORRECTED_CUSTOMER_DATA)
           .then((res) => {
             expect(res.statusCode).to.equal(200);
-            expect(res.body.user_name).to.equal(customerTestData.CORRECTED_CUSTOMER_DATA.user_name);
+            expect(res.body.user_name).to.equal(customerData.CORRECTED_CUSTOMER_DATA.user_name);
           })
       );
 
       it('should return 400 Bad Request and, when registered customer', () =>
         expect(chai.request(mockedApp)
           .post('/customers')
-          .send(customerTestData.UNCORRECTED_CUSTOMER_DATA_NO_USER_NAME))
+          .send(customerData.UNCORRECTED_CUSTOMER_DATA_NO_USER_NAME))
           .to.eventually.be.rejectedWith('Bad Request')
           .and.have.status(400)
       );
@@ -57,25 +57,25 @@ describe('Routes', () => {
     describe('#DELETE', () => {
       it('should return 200 OK and delete customer information based on given customer id.', () => {
         // Arrange
-        const arrange = new CustomerModel(customerTestData.CORRECTED_CUSTOMER_DATA).save();
+        const arrange = new CustomerModel(customerData.CORRECTED_CUSTOMER_DATA).save();
 
         // Act
         const action = arrange.then(() =>
           chai.request(mockedApp)
-            .delete(`/customers/${customerTestData.CORRECTED_CUSTOMER_DATA.user_name}`)
+            .delete(`/customers/${customerData.CORRECTED_CUSTOMER_DATA.user_name}`)
         );
 
         // Assert
         return action
           .then((res) => {
             expect(res.status).to.equal(200);
-            expect(res.body).to.equal(`The customer ${customerTestData.CORRECTED_CUSTOMER_DATA.user_name} has been deleted.`);
+            expect(res.body).to.equal(`The customer ${customerData.CORRECTED_CUSTOMER_DATA.user_name} has been deleted.`);
           });
       });
 
       it('should return 400 OK and not delete if given customer id does not exist.', () => {
         // Arrange
-        const arrange = new CustomerModel(customerTestData.CORRECTED_CUSTOMER_DATA).save();
+        const arrange = new CustomerModel(customerData.CORRECTED_CUSTOMER_DATA).save();
 
         // Act
         const action = arrange.then(() =>
@@ -94,18 +94,59 @@ describe('Routes', () => {
     describe('#PUT', () => {
       it('should return 200 OK and update or create a customer based on given customer\'s user_name', () => {
         // Arrange
-        const arrange = new CustomerModel(customerTestData.CORRECTED_CUSTOMER_DATA).save();
+        const arrange = new CustomerModel(customerData.CORRECTED_CUSTOMER_DATA).save();
 
         // Act
         const action = arrange.then(() =>
           chai.request(mockedApp)
-            .put(`/customers/${customerTestData.CORRECTED_CUSTOMER_DATA.user_name}`)
+            .put(`/customers/${customerData.CORRECTED_CUSTOMER_DATA.user_name}`)
         );
 
         // Assert
         return action
           .then((res) => {
             expect(res.status).to.equal(200);
+          });
+      });
+    });
+
+    describe('#GET', () => {
+      it('should return 200 OK and all of customers information', () => {
+        // Arrange
+        const arrange = CustomerModel.create([
+          customerData.CORRECTED_CUSTOMER_DATA,
+          customerData.CORRECTED_CUSTOMER_DATA2]);
+
+        // Act
+        const action = arrange.then(() =>
+          chai.request(mockedApp)
+            .get('/customers')
+        );
+
+        // Assert
+        return action
+          .then((res) => {
+            expect(res.status).to.equal(200);
+            expect(res.body.length).to.equal(2);
+          });
+      });
+      it('should return 200 OK and a specific customer based on user_name', () => {
+        // Arrange
+        const arrange = CustomerModel.create([
+          customerData.CORRECTED_CUSTOMER_DATA,
+          customerData.CORRECTED_CUSTOMER_DATA2]);
+
+        // Act
+        const action = arrange.then(() =>
+          chai.request(mockedApp)
+            .get(`/customers/${customerData.CORRECTED_CUSTOMER_DATA2.user_name}`)
+        );
+
+        // Assert
+        return action
+          .then((res) => {
+            expect(res.status).to.equal(200);
+            expect(res.body.email).to.equal(customerData.CORRECTED_CUSTOMER_DATA2.email);
           });
       });
     });

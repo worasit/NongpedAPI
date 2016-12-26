@@ -20,6 +20,27 @@
   ],
   "paths": {
     "/customers": {
+      "get": {
+        "tags": [
+          "Customers"
+        ],
+        "summary": "",
+        "description": "Retrieve all customer information in Nongped system.",
+        "responses": {
+          "200": {
+            "description": "Retrieve all customers information successfully.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Customer"
+              }
+            }
+          },
+          "400": {
+            "description": "Unexpected error."
+          }
+        }
+      },
       "post": {
         "tags": [
           "Customers"
@@ -38,9 +59,78 @@
           }
         ],
         "responses": {
-          "200": {},
+          "200": {
+            "description": "The Customer has been registered into the system.",
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          },
           "400": {
-            "description": "Invalid request"
+            "description": "Unexpected error"
+          }
+        }
+      }
+    },
+    "/customers/{user_name}": {
+      "get": {
+        "description": "Retrieve a specific customer information based on username.",
+        "tags": [
+          "Customers"
+        ],
+        "parameters": [
+          {
+            "name": "user_name",
+            "in": "path",
+            "description": "The customer's username.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Unexpected error."
+          },
+          "200": {
+            "description": "Customer information found.",
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Customers"
+        ],
+        "summary": "",
+        "description": "Register a new customer into the system.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Customer information for updating",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          },
+          {
+            "name": "user_name",
+            "in": "path",
+            "description": "The customer's username.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Customer information has been updated.",
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          },
+          "400": {
+            "description": "Unexpected error."
           }
         }
       }

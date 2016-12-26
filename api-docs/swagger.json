@@ -99,11 +99,10 @@
         }
       },
       "put": {
+        "description": "Register a new customer into the system.",
         "tags": [
           "Customers"
         ],
-        "summary": "",
-        "description": "Register a new customer into the system.",
         "parameters": [
           {
             "name": "body",
@@ -125,6 +124,32 @@
         "responses": {
           "200": {
             "description": "The Customer information has been updated.",
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          },
+          "400": {
+            "description": "Unexpected error."
+          }
+        }
+      },
+      "delete": {
+        "description": "Remove a customer from the system.",
+        "tags": [
+          "Customers"
+        ],
+        "parameters": [
+          {
+            "name": "user_name",
+            "in": "path",
+            "description": "The customer's username.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Customer information has been removed.",
             "schema": {
               "$ref": "#/definitions/Customer"
             }

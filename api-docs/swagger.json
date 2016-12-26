@@ -14,7 +14,7 @@
   "basePath": "/",
   "schemes": [
     "https"
-  ],s
+  ],
   "produces": [
     "application/json"
   ],

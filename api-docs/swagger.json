@@ -13,7 +13,7 @@
   "host": "nongped-api.herokuapp.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "produces": [
     "application/json"

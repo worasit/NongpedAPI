@@ -29,6 +29,13 @@ if (mongoose.connection.readyState === 0) {
   });
 }
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  next();
+});
+
 app.use(express.static(path.join(__dirname, '/swagger')));
 app.get('/api-docs(/:api)?', (req, res) => {
   let f = req.params.api || 'swagger';

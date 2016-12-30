@@ -50,14 +50,14 @@ gulp.task('pre-test', () =>
 
 gulp.task('unit-test', ['pre-test'], () =>
   gulp.src(['tests/unit/**/*.js'])
-    .pipe($.mocha())
+    .pipe($.mocha({ timeout: 100000 }))
     .pipe($.istanbul.writeReports())
     .pipe($.istanbul.enforceThresholds({ thresholds: { global: 70 } }))
 );
 
 gulp.task('integration-test', () =>
   gulp.src(['tests/integration/*.js', 'test/integration/**/*.js'], { read: false })
-    .pipe($.mocha({}))
+    .pipe($.mocha({ timeout: 100000 }))
     .on('error', $.util.log)
     .once('end', () => {
       process.exit();

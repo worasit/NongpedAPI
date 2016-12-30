@@ -8,16 +8,16 @@ const mongoose = require('mongoose');
 const config = require('./configManager');
 const fs = require('fs');
 const path = require('path');
-const https = require('https');
+// const https = require('https');
 const healthcheckRouter = require('./app/routes/healthcheck');
 const customerRouter = require('./app/routes/customer');
 
 const app = express();
 const port = process.env.PORT || config.apiPort;
-const options = {
-  key: fs.readFileSync('./keys/client-key.pem'),
-  cert: fs.readFileSync('./keys/client-cert.pem')
-};
+// const options = {
+//   key: fs.readFileSync('./keys/client-key.pem'),
+//   cert: fs.readFileSync('./keys/client-cert.pem')
+// };
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -48,7 +48,14 @@ app.get('/api-docs(/:api)?', (req, res) => {
     res.end(data);
   });
 });
-https.createServer(options, app).listen(port, () => {
+
+// https.createServer(options, app).listen(port, () => {
+//   logger.info(`The NongPed API is now running at port: ${port}`);
+//   logger.info(`Using configuration for ${config.environment} enviroment`);
+//   logger.info(JSON.stringify(config));
+// });
+
+app.listen(port, () => {
   logger.info(`The NongPed API is now running at port: ${port}`);
   logger.info(`Using configuration for ${config.environment} enviroment`);
   logger.info(JSON.stringify(config));

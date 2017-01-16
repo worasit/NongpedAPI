@@ -1,0 +1,18 @@
+FROM node:4-onbuild
+
+# Create app directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# Set NODE_ENV to production
+ENV NODE_ENV=production
+
+# Install app dependencies
+COPY package.json /usr/src/app/
+RUN npm install --production
+
+# Bundle app source
+COPY . /usr/src/app
+
+EXPOSE 4000
+CMD [ "npm" , "start" ]

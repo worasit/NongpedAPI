@@ -1,8 +1,5 @@
 sudo: required
 language: node_js
-services:
-  - docker
-
 node_js:
   - "4"
 install:
@@ -12,7 +9,3 @@ script:
 cache:
   directories:
   - node_modules
-after_success:
-  - docker login -u worasit501 -p bfmzevdn
-  - docker build -t worasit501/nongped-api .
-  - docker push worasit501/nongped-api

@@ -85,3 +85,6 @@ jspm_packages
 .idea/
 node_modules/
 
+
+# Elastic Beanstalk Files
+/.elasticbeanstalk/config.yml
